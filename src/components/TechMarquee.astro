@@ -1,0 +1,19 @@
+---
+import { site } from '@/content/site';
+const items = [...site.tech, ...site.tech];
+---
+
+<div class="marquee relative border-y border-line py-4" aria-label="Technologies I work with">
+  <div class="marquee-track gap-10 px-5 text-sm text-muted">
+    {
+      items.map((item, i) => (
+        <span class="flex items-center gap-10 whitespace-nowrap" aria-hidden={i >= site.tech.length ? 'true' : undefined}>
+          <span class="mono">{item}</span>
+          <span class="text-accent/60">✦</span>
+        </span>
+      ))
+    }
+  </div>
+  <div class="pointer-events-none absolute inset-y-0 left-0 w-24 bg-linear-to-r from-bg to-transparent"></div>
+  <div class="pointer-events-none absolute inset-y-0 right-0 w-24 bg-linear-to-l from-bg to-transparent"></div>
+</div>

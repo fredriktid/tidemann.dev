@@ -1,0 +1,98 @@
+---
+import { projects } from '@/content/projects';
+
+const featured = projects.filter((p) => p.featured);
+const rest = projects.filter((p) => !p.featured);
+---
+
+<section id="projects" class="container-x py-28 sm:py-36">
+  <div class="mb-14 flex flex-wrap items-end justify-between gap-6" data-reveal>
+    <div>
+      <p class="eyebrow mb-4">02 — Projects</p>
+      <h2 class="text-balance text-4xl font-semibold tracking-[-0.03em] text-fg/80 sm:text-5xl">
+        Things I helped <span class="em">ship.</span>
+      </h2>
+    </div>
+    <p class="mono max-w-xs text-xs text-muted">A selection. Most of the consulting work was delivered with the team at Netmaking.</p>
+  </div>
+
+  {
+    featured.map((project) => (
+      <a
+        href={project.href}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="project-card group mb-4 grid gap-8 rounded-2xl border border-line bg-bg-elevated p-6 transition-colors hover:border-fg/30 sm:p-10 lg:grid-cols-[1.2fr_1fr]"
+        data-reveal
+      >
+        <div>
+          <p class="mono text-xs text-muted">{project.kind}</p>
+          <h3 class="mt-4 text-3xl font-semibold tracking-tight sm:text-4xl">
+            {project.title}
+            <span class="ml-1 inline-block text-muted transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5">↗</span>
+          </h3>
+          {project.quote && <p class="serif-italic mt-2 text-2xl text-accent">{project.quote}</p>}
+          <p class="mt-6 max-w-prose text-pretty leading-relaxed text-muted">{project.summary}</p>
+        </div>
+        <div class="flex items-center justify-center rounded-xl border border-line/60 p-10">
+          {project.logo && (
+            <img src={project.logo.src} width={project.logo.width} height={project.logo.height} alt={project.client} class="client-logo client-logo-lg" loading="lazy" decoding="async" />
+          )}
+        </div>
+      </a>
+    ))
+  }
+
+  <ul class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+    {
+      rest.map((project, i) => (
+        <li data-reveal style={`--reveal-delay: ${(i % 3) * 60}ms`}>
+          <article class="project-card flex h-full flex-col rounded-2xl border border-line bg-bg-elevated p-6 transition-colors hover:border-fg/30">
+            <div>
+              <div class="flex h-10 items-center">
+                {project.logo ? (
+                  <img src={project.logo.src} width={project.logo.width} height={project.logo.height} alt={project.client} class="client-logo" loading="lazy" decoding="async" />
+                ) : (
+                  <span class="client-wordmark">{project.client}</span>
+                )}
+              </div>
+              <h3 class="mt-8 text-xl font-semibold tracking-tight">{project.title}</h3>
+              <p class="mono mt-1 text-xs text-muted">{project.kind}</p>
+              <p class="mt-4 text-pretty text-sm leading-relaxed text-muted">{project.summary}</p>
+            </div>
+          </article>
+        </li>
+      ))
+    }
+  </ul>
+</section>
+
+<style>
+  .client-logo {
+    display: block;
+    width: auto;
+    max-width: 9rem;
+    max-height: 2.25rem;
+    height: auto;
+    filter: brightness(0) invert(1);
+    opacity: 0.8;
+    transition: opacity 0.3s ease;
+  }
+
+  .client-logo-lg {
+    max-width: 16rem;
+    max-height: 5rem;
+  }
+
+  .project-card:hover .client-logo {
+    opacity: 1;
+  }
+
+  .client-wordmark {
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    font-size: 1.15rem;
+    text-transform: uppercase;
+    opacity: 0.8;
+  }
+</style>

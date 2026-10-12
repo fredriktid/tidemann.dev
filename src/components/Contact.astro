@@ -1,0 +1,39 @@
+---
+import { site } from '@/content/site';
+---
+
+<section id="contact" class="container-x py-28 sm:py-36">
+  <div class="relative border-t border-line pt-16 sm:pt-24" data-reveal>
+    <p class="eyebrow mb-4">03 — Contact</p>
+    <h2 class="max-w-3xl text-balance text-4xl font-semibold tracking-[-0.03em] sm:text-6xl">
+      Say <span class="serif-italic font-normal text-accent">hello.</span>
+    </h2>
+    <p class="mt-6 max-w-xl text-pretty text-lg leading-relaxed text-muted">
+      I like hearing about what other people are building. If you're working on something for the web and think I could be useful, or just want to talk shop, drop me a line. {site.offDuty}
+    </p>
+    <div class="mt-10 flex flex-wrap items-center gap-4">
+      <a
+        href={`mailto:${site.email}`}
+        class="inline-flex items-center gap-2 rounded-full bg-accent px-6 py-3.5 text-sm font-semibold text-bg transition-transform hover:-translate-y-0.5"
+      >
+        {site.email}
+      </a>
+      <a
+        href={site.linkedin}
+        target="_blank"
+        rel="noopener noreferrer me"
+        class="inline-flex items-center gap-2 rounded-full border border-line px-6 py-3.5 text-sm text-fg transition-colors hover:border-fg"
+      >
+        LinkedIn ↗
+      </a>
+      <a
+        href={site.github}
+        target="_blank"
+        rel="noopener noreferrer me"
+        class="inline-flex items-center gap-2 rounded-full border border-line px-6 py-3.5 text-sm text-fg transition-colors hover:border-fg"
+      >
+        GitHub ↗
+      </a>
+    </div>
+  </div>
+</section>

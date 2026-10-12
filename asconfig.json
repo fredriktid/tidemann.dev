@@ -1,0 +1,18 @@
+{
+  "targets": {
+    "release": {
+      "outFile": "public/wasm/sim.wasm",
+      "optimizeLevel": 3,
+      "shrinkLevel": 1,
+      "noAssert": true,
+      "converge": true
+    }
+  },
+  "options": {
+    "runtime": "stub",
+    "exportRuntime": false,
+    "bindings": false,
+    "initialMemory": 16,
+    "maximumMemory": 16
+  }
+}

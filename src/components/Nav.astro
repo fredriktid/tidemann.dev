@@ -1,0 +1,50 @@
+---
+import { site } from '@/content/site';
+
+const links = [
+  { href: '#timeline', label: 'Timeline' },
+  { href: '#projects', label: 'Projects' },
+  { href: '#contact', label: 'Contact' },
+];
+---
+
+<header class="fixed inset-x-0 top-0 z-40">
+  <div class="container-x flex h-16 items-center justify-between">
+    <a href="#top" class="mono text-sm tracking-tight text-fg" aria-label="Back to top">
+      <span class="text-accent">~/</span>{site.handle}
+    </a>
+    <nav aria-label="Primary" class="flex items-center gap-5 sm:gap-7">
+      {
+        links.map((link) => (
+          <a href={link.href} class="link-draw text-sm text-muted transition-colors hover:text-fg">
+            {link.label}
+          </a>
+        ))
+      }
+      <a
+        href={site.linkedin}
+        target="_blank"
+        rel="noopener noreferrer me"
+        aria-label="LinkedIn"
+        class="grid size-9 place-items-center rounded-full border border-line text-muted transition-colors hover:border-fg hover:text-fg"
+      >
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path
+            d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.13 1.45-2.13 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zM7.12 20.45H3.55V9h3.57v11.45z"
+          ></path>
+        </svg>
+      </a>
+    </nav>
+  </div>
+  <div class="nav-fade" aria-hidden="true"></div>
+</header>
+
+<style>
+  .nav-fade {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: linear-gradient(to bottom, color-mix(in oklab, var(--color-bg) 85%, transparent), transparent);
+    pointer-events: none;
+  }
+</style>
