@@ -1,10 +1,16 @@
----
-import { site } from '@/content/site';
----
-
-<footer class="container-x flex flex-wrap items-center justify-between gap-4 border-t border-line py-8 text-xs text-muted">
-  <p class="mono">{site.name}</p>
-  <p class="mono">
-    Astro · Vue · <span class="text-accent">WebAssembly</span> · no tracking
-  </p>
+<footer class="collar-foot">
+  <p>Built with Astro, Vue and WebAssembly. No tracking.</p>
 </footer>
+
+<style>
+  .collar-foot {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 0.5rem 2rem;
+    padding: 1.25rem var(--sheet-margin);
+    border-top: 1.5px solid var(--color-ink);
+    font-size: 0.8rem;
+    color: var(--color-ink-soft);
+  }
+</style>

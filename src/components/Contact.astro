@@ -1,39 +1,125 @@
 ---
 import { site } from '@/content/site';
+import Arrow from './Arrow.astro';
+
+const edition = new Date().getFullYear();
 ---
 
-<section id="contact" class="container-x py-28 sm:py-36">
-  <div class="relative border-t border-line pt-16 sm:pt-24" data-reveal>
-    <p class="eyebrow mb-4">03 — Contact</p>
-    <h2 class="max-w-3xl text-balance text-4xl font-semibold tracking-[-0.03em] sm:text-6xl">
-      Say <span class="serif-italic font-normal text-accent">hello.</span>
-    </h2>
-    <p class="mt-6 max-w-xl text-pretty text-lg leading-relaxed text-muted">
-      I like hearing about what other people are building. If you're working on something for the web and think I could be useful, or just want to talk shop, drop me a line. {site.offDuty}
-    </p>
-    <div class="mt-10 flex flex-wrap items-center gap-4">
-      <a
-        href={`mailto:${site.email}`}
-        class="inline-flex items-center gap-2 rounded-full bg-accent px-6 py-3.5 text-sm font-semibold text-bg transition-transform hover:-translate-y-0.5"
-      >
-        {site.email}
-      </a>
-      <a
-        href={site.linkedin}
-        target="_blank"
-        rel="noopener noreferrer me"
-        class="inline-flex items-center gap-2 rounded-full border border-line px-6 py-3.5 text-sm text-fg transition-colors hover:border-fg"
-      >
-        LinkedIn ↗
-      </a>
-      <a
-        href={site.github}
-        target="_blank"
-        rel="noopener noreferrer me"
-        class="inline-flex items-center gap-2 rounded-full border border-line px-6 py-3.5 text-sm text-fg transition-colors hover:border-fg"
-      >
-        GitHub ↗
-      </a>
+<section id="contact" class="sheet" aria-labelledby="contact-title">
+  <div class="contact">
+    <h2 id="contact-title">Contact</h2>
+    <div class="contact-body">
+      <p>{site.contact}</p>
+      <p class="contact-offduty">{site.offDuty}</p>
+      <a href={`mailto:${site.email}`} class="contact-email">{site.email}</a>
+      <ul class="contact-links">
+        <li><a href={site.linkedin} target="_blank" rel="noopener noreferrer me">LinkedIn<Arrow /></a></li>
+        <li><a href={site.github} target="_blank" rel="noopener noreferrer me">GitHub<Arrow /></a></li>
+      </ul>
     </div>
+
+    <dl class="imprint">
+      <div><dt>Edition</dt><dd>{edition}</dd></div>
+      <div><dt>Grid</dt><dd>1 km squares, labelled as UTM zone 32 around Oslo</dd></div>
+      <div><dt>Terrain</dt><dd>Made in WebAssembly on your device. Not for navigation.</dd></div>
+    </dl>
   </div>
 </section>
+
+<style>
+  .contact {
+    display: grid;
+    gap: 1.5rem 5rem;
+    margin-bottom: clamp(2rem, 5vw, 3rem);
+    padding: clamp(1.5rem, 4vw, 3rem);
+    border: 1.5px solid var(--color-ink);
+  }
+
+  h2 {
+    font-size: clamp(2rem, 4.2vw, 3.25rem);
+    font-weight: 800;
+    line-height: 1.02;
+    letter-spacing: -0.03em;
+  }
+
+  .contact-body p {
+    max-width: 58ch;
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: var(--color-ink-soft);
+    text-wrap: pretty;
+  }
+
+  .contact-offduty {
+    margin-top: 1rem;
+  }
+
+  .contact-email {
+    display: inline-block;
+    margin-top: 2rem;
+    font-size: clamp(1.6rem, 4.6vw, 3rem);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+    overflow-wrap: anywhere;
+    text-decoration: underline;
+    text-decoration-color: var(--color-trail);
+    text-decoration-thickness: 3px;
+    text-underline-offset: 0.18em;
+  }
+
+  .contact-email:hover {
+    color: var(--color-trail-ink);
+  }
+
+  .contact-links {
+    display: flex;
+    gap: 1.5rem;
+    margin: 1.25rem 0 0;
+    padding: 0;
+    list-style: none;
+    font-weight: 600;
+  }
+
+  .contact-links a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.75rem;
+  }
+
+  .imprint {
+    display: grid;
+    gap: 0.5rem 2rem;
+    margin: 1rem 0 0;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--color-rule);
+    font-size: 0.8rem;
+    color: var(--color-ink-soft);
+  }
+
+  .imprint div {
+    display: flex;
+    gap: 0.6rem;
+  }
+
+  .imprint dt {
+    font-weight: 700;
+    color: var(--color-ink);
+  }
+
+  .imprint dd {
+    margin: 0;
+  }
+
+  @media (min-width: 1024px) {
+    .contact {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1.7fr);
+    }
+
+    .imprint {
+      grid-column: 1 / -1;
+      grid-template-columns: repeat(3, auto);
+      justify-content: start;
+    }
+  }
+</style>

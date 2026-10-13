@@ -17,7 +17,7 @@ export const timeline: TimelineEntry[] = [
     org: 'Aschehoug',
     location: 'Oslo',
     summary:
-      'Leading development of Aunivers, one of Norway’s largest ed-tech platforms, used by hundreds of thousands of students every month across primary, lower and upper secondary, and adult education.',
+      'I lead the development of Aunivers, one of the largest ed-tech platforms in Norway. Hundreds of thousands of students use it every month, from primary school to adult education.',
     current: true,
   },
   {
@@ -27,7 +27,7 @@ export const timeline: TimelineEntry[] = [
     org: 'Netmaking',
     location: 'Oslo',
     summary:
-      'Nine years of consulting on web platforms for clients like KPMG, XL-BYGG, Norcem, Confex and Avinor-integrated parking at Gardermoen. Order systems, course platforms, certification workflows, CMS and CRM integrations.',
+      'Nine years as a consultant, building web platforms for clients like KPMG, XL-BYGG, Norcem and Confex, and a parking system at Oslo Airport connected to Avinor. Order systems, course platforms, certification workflows, CMS and CRM integrations.',
     roles: [
       { title: 'Senior Web Developer', period: '2014 — 2021' },
       { title: 'Web Developer', period: '2011 — 2014' },
@@ -40,7 +40,7 @@ export const timeline: TimelineEntry[] = [
     org: 'Domeneshop',
     location: 'Oslo',
     summary:
-      'Domains, DNS, mail and hosting for one of Norway’s largest registrars. Part time through university, full time after. Where I learned that the boring parts of the internet are the ones that matter.',
+      'Domains, DNS, email and hosting at one of the largest domain registrars in Norway. Part time while I studied, then full time. This is where I learned that the boring parts of the internet are the ones that matter most.',
     roles: [
       { title: 'Administrator / technical support, full time', period: '2009 — 2011' },
       { title: 'Technical support, part time', period: '2007 — 2009' },
@@ -52,7 +52,7 @@ export const timeline: TimelineEntry[] = [
     title: 'B.Sc. Informatics',
     org: 'University of Oslo',
     summary:
-      'Java, Python, algorithms and data structures, systems engineering, calculus, linear algebra, statistics and logic. Freelanced on web projects on the side.',
+      'Java, Python, algorithms and data structures, systems engineering, calculus, linear algebra, statistics and logic. I also did freelance web projects on the side.',
   },
   {
     period: '2001',
@@ -60,6 +60,6 @@ export const timeline: TimelineEntry[] = [
     title: 'First lines of code',
     org: 'Seattle',
     summary:
-      'IRC scripts, Geocities pages and the first dynamic PHP sites, built as a teenager on a dial-up connection. Liberal use of <marquee> and <blink>, which I maintain were ahead of their time. Still at it.',
+      'IRC scripts, Geocities pages and my first PHP sites, built as a teenager on a dial-up connection. I used a lot of <marquee> and <blink>, and I still think they were ahead of their time.',
   },
 ];

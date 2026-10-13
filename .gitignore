@@ -5,3 +5,12 @@ dist
 .DS_Store
 build
 .idea
+
+# AI / Impeccable context (local only)
+.impeccable/
+PRODUCT.md
+DESIGN.md
+CLAUDE.md
+CLAUDE.local.md
+AGENTS.md
+GEMINI.md

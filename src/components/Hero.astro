@@ -1,87 +1,335 @@
 ---
 import { site } from '@/content/site';
-import ParticleField from './ParticleField.vue';
-import PixelPortrait from './PixelPortrait.vue';
+import SurveyMap from './SurveyMap.vue';
+import Arrow from './Arrow.astro';
+
+// Kilometre grid labels along the neat line, read as UTM zone 32 around Oslo.
+const eastings = Array.from({ length: 14 }, (_, i) => 595 + i);
+const northings = Array.from({ length: 8 }, (_, i) => 6646 - i);
 ---
 
-<section id="top" class="relative isolate flex min-h-dvh flex-col justify-center overflow-hidden pt-24 pb-20">
-  <ParticleField client:load />
-  <div class="hero-vignette" aria-hidden="true"></div>
+<section id="top" class="hero" aria-label="Introduction">
+  <div class="frame">
+    <div class="mapwrap">
+      <div class="ticks ticks-e" aria-hidden="true">
+        {eastings.map((e, i) => <span style={`--i: ${i}`}>{e}</span>)}
+      </div>
+      <div class="ticks ticks-n" aria-hidden="true">
+        {northings.map((n, i) => <span style={`--i: ${i}`}>{n}</span>)}
+      </div>
 
-  <div class="container-x relative grid items-center gap-12 lg:grid-cols-[1.35fr_1fr] lg:gap-16">
-    <div>
-      <p class="eyebrow mb-6 flex items-center gap-3">
-        <span class="inline-block size-2 rounded-full bg-accent"></span>
-        {site.location} · {site.tagline}
-      </p>
-      <h1 class="hero-title text-balance font-semibold tracking-[-0.04em] text-fg/80">
-        Hi, I'm <span class="whitespace-nowrap">Fredrik.</span>
-        <br />
-        <span class="em">Tech lead</span> who still
-        <br class="hidden sm:block" />
-        <span class="em">ships</span> <span class="em">code.</span>
-      </h1>
-      <p class="mt-8 max-w-xl text-pretty text-lg leading-relaxed text-muted sm:text-xl">
-        Twenty-plus years building fast, resilient things for the web. Currently leading ed-tech development at <span
-          class="text-fg">Aschehoug</span>.
-      </p>
-      <div class="mt-10 flex flex-wrap items-center gap-4">
-        <a
-          href={site.linkedin}
-          target="_blank"
-          rel="noopener noreferrer me"
-          class="link-draw text-sm text-muted hover:text-fg"
-        >
-          LinkedIn ↗
-        </a>
-        <a href={site.github} target="_blank" rel="noopener noreferrer me" class="link-draw text-sm text-muted hover:text-fg">
-          GitHub ↗
+      <div class="neatline">
+        <SurveyMap client:load src="/avatar.png" fallback="/avatar-32.png" alt={`Pixel portrait of ${site.name}`} />
+
+        <svg class="route" viewBox="0 0 1000 100" preserveAspectRatio="none" aria-hidden="true">
+          <path d="M0 88 C80 84 140 95 230 92 S380 85 470 92 S640 97 712 90" vector-effect="non-scaling-stroke"></path>
+        </svg>
+        <a href="#timeline" class="route-mark">
+          <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M2 3h16v4.5h-5.5V18h-5V7.5H2Z"></path></svg>
+          <span>The route, 2001 to now</span>
         </a>
       </div>
     </div>
 
-    <div class="relative mx-auto w-full max-w-[20rem] sm:max-w-[24rem] lg:max-w-none">
-      <div class="portrait-wrap">
-        <PixelPortrait client:load src="/avatar.png" fallback="/avatar-32.png" alt={`Pixel portrait of ${site.name}`} />
-      </div>
-      <span class="sticker mono float" aria-hidden="true">gravel · snow · web</span>
-    </div>
+    <aside class="legend" aria-labelledby="legend-title">
+      <h1 id="legend-title">{site.name}</h1>
+      <p class="legend-line">{site.headline}</p>
+      <p class="legend-lede">{site.lede}</p>
+
+      <dl class="key">
+        <div>
+          <dt>
+            <svg viewBox="0 0 40 14" aria-hidden="true"><path d="M1 10C9 2 16 2 22 7s12 5 17-1" class="k-contour"></path></svg>
+          </dt>
+          <dd>Contours: lines traced from the light and dark in my photo, live in WebAssembly</dd>
+        </div>
+        <div>
+          <dt>
+            <svg viewBox="0 0 40 14" aria-hidden="true"><rect x="2" y="1" width="11" height="11" class="k-tile"></rect><rect x="15" y="1" width="11" height="11" class="k-tile k-tile-2"></rect><rect x="28" y="1" width="5" height="5" class="k-tile"></rect><rect x="34" y="1" width="5" height="5" class="k-tile k-tile-2"></rect><rect x="28" y="7" width="5" height="5" class="k-tile k-tile-2"></rect><rect x="34" y="7" width="5" height="5" class="k-tile"></rect></svg>
+          </dt>
+          <dd>Tiles: my photo in blocks. Move the pointer over it for more detail</dd>
+        </div>
+        <div>
+          <dt>
+            <svg viewBox="0 0 40 14" aria-hidden="true"><path d="M1 8h38" class="k-route"></path></svg>
+          </dt>
+          <dd>Route: where I have worked. Scroll down to follow it</dd>
+        </div>
+      </dl>
+
+      <ul class="legend-links">
+        <li><a href={`mailto:${site.email}`} class="trail-link">{site.email}</a></li>
+        <li><a href={site.linkedin} target="_blank" rel="noopener noreferrer me">LinkedIn<Arrow /></a></li>
+        <li><a href={site.github} target="_blank" rel="noopener noreferrer me">GitHub<Arrow /></a></li>
+      </ul>
+      <p class="legend-meta">{site.location} · {site.tagline}</p>
+    </aside>
   </div>
 </section>
 
 <style>
-  .hero-title {
-    font-size: clamp(2.6rem, 7.2vw, 6.2rem);
-    line-height: 0.98;
+  .hero {
+    padding: 0 var(--sheet-margin) 2.5rem;
   }
 
-  .hero-vignette {
+  .frame {
+    --gutter-t: 1.75rem;
+    --gutter-l: 2.75rem;
+    position: relative;
+  }
+
+  .mapwrap {
+    position: relative;
+    padding: var(--gutter-t) 0 0 var(--gutter-l);
+  }
+
+  .neatline {
+    position: relative;
+    height: clamp(26rem, 118vw, 74svh);
+    border: 1.5px solid var(--color-ink);
+    background: var(--color-paper);
+    overflow: hidden;
+  }
+
+  /* Grid labels sit outside the neat line, aligned to the kilometre lines inside it. */
+  .ticks {
     position: absolute;
-    inset: 0;
-    z-index: 0;
+    overflow: hidden;
     pointer-events: none;
-    background: linear-gradient(to bottom, transparent 80%, var(--color-bg));
+    font-size: 0.7rem;
+    font-weight: 550;
+    font-variant-numeric: tabular-nums;
+    color: var(--color-water);
   }
 
-  .portrait-wrap {
-    transform: rotate(-2deg);
-    transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
-  }
-
-  .portrait-wrap:hover {
-    transform: rotate(0deg) scale(1.02);
-  }
-
-  .sticker {
+  .ticks span {
     position: absolute;
-    right: -0.5rem;
-    top: -1rem;
-    padding: 0.45rem 0.8rem;
-    border-radius: 999px;
-    background: var(--color-accent);
-    color: var(--color-bg);
-    font-size: 0.68rem;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
+    line-height: 1;
+  }
+
+  .ticks-e {
+    top: 0;
+    left: var(--gutter-l);
+    right: 0;
+    height: var(--gutter-t);
+  }
+
+  .ticks-e span {
+    left: calc(var(--i) * var(--km) + 1.5px);
+    bottom: 0.45rem;
+    transform: translateX(-50%);
+  }
+
+  .ticks-e span:first-child {
+    transform: none;
+  }
+
+  .ticks-n {
+    top: var(--gutter-t);
+    left: 0;
+    width: var(--gutter-l);
+    bottom: 0;
+  }
+
+  .ticks-n span {
+    top: calc(var(--i) * var(--km) + 1.5px);
+    right: 0.45rem;
+    transform: translateY(-50%);
+  }
+
+  .ticks-n span:first-child {
+    transform: none;
+  }
+
+  .route {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    overflow: visible;
+  }
+
+  .route path {
+    fill: none;
+    stroke: var(--color-trail);
+    stroke-width: 3;
+    stroke-dasharray: 9 6;
+    stroke-linecap: butt;
+  }
+
+  .route-mark {
+    position: absolute;
+    left: 71.2%;
+    top: 90%;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    min-height: 2.75rem;
+    padding-right: 0.75rem;
+    transform: translate(-0.6rem, -50%);
+    color: var(--color-ink);
+    font-size: 0.85rem;
+    font-weight: 650;
+    text-decoration: none;
+  }
+
+  .route-mark svg {
+    width: 1.25rem;
+    height: 1.25rem;
+    flex: none;
+    fill: var(--color-trail);
+  }
+
+  .route-mark span {
+    padding: 0.2rem 0.45rem;
+    background: var(--color-paper);
+    border: 1px solid var(--color-ink);
+    transition: background-color 0.2s ease;
+  }
+
+  .route-mark:hover span {
+    background: var(--color-forest);
+  }
+
+  /* Legend: a margin panel under the map on small sheets, an inset on wide ones. */
+  .legend {
+    margin-top: 1.25rem;
+    padding: 1.5rem;
+    border: 1.5px solid var(--color-ink);
+    background: var(--color-paper);
+  }
+
+  .legend h1 {
+    font-size: clamp(2rem, 5vw, 2.6rem);
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -0.025em;
+    text-wrap: balance;
+  }
+
+  .legend-line {
+    margin-top: 0.6rem;
+    font-size: 1.15rem;
+    font-weight: 650;
+    letter-spacing: -0.01em;
+  }
+
+  .legend-lede {
+    margin-top: 0.75rem;
+    max-width: 34ch;
+    color: var(--color-ink-soft);
+    line-height: 1.5;
+    text-wrap: pretty;
+  }
+
+  .key {
+    display: grid;
+    gap: 0.6rem;
+    margin: 1.25rem 0 0;
+    padding: 1rem 0;
+    border-block: 1px solid var(--color-rule);
+  }
+
+  .key div {
+    display: grid;
+    grid-template-columns: 2.5rem 1fr;
+    gap: 0.75rem;
+    align-items: center;
+  }
+
+  .key dt svg {
+    display: block;
+    width: 2.5rem;
+    height: 0.9rem;
+    overflow: visible;
+  }
+
+  .key dd {
+    margin: 0;
+    font-size: 0.8rem;
+    line-height: 1.35;
+    color: var(--color-ink-soft);
+  }
+
+  .k-contour {
+    fill: none;
+    stroke: var(--color-contour);
+    stroke-width: 1.4;
+  }
+
+  .k-tile {
+    fill: #b7c79c;
+  }
+
+  .k-tile-2 {
+    fill: #e2d7bd;
+  }
+
+  .k-route {
+    fill: none;
+    stroke: var(--color-trail);
+    stroke-width: 3;
+    stroke-dasharray: 6 4;
+  }
+
+  .legend-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 1.5rem;
+    margin: 1rem 0 0;
+    padding: 0;
+    list-style: none;
+    font-weight: 600;
+  }
+
+  .legend-links li:first-child {
+    flex-basis: 100%;
+  }
+
+  .legend-links a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.75rem;
+  }
+
+  .legend-meta {
+    margin-top: 0.25rem;
+    font-size: 0.8rem;
+    color: var(--color-ink-soft);
+  }
+
+  @media (min-width: 1180px) {
+    .neatline {
+      height: clamp(36rem, calc(100svh - 3.5rem - 1.75rem - 2.5rem), 62rem);
+    }
+
+    .legend {
+      position: absolute;
+      top: calc(var(--gutter-t) + 1.25rem);
+      right: 1.25rem;
+      width: 23rem;
+      margin: 0;
+      z-index: 2;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .frame {
+      --gutter-t: 1.4rem;
+      --gutter-l: 2.4rem;
+    }
+
+    .legend {
+      padding: 1.25rem;
+    }
+
+    .route-mark {
+      left: auto;
+      right: 0.5rem;
+      transform: translateY(-50%);
+    }
   }
 </style>

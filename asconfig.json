@@ -12,7 +12,7 @@
     "runtime": "stub",
     "exportRuntime": false,
     "bindings": false,
-    "initialMemory": 16,
-    "maximumMemory": 16
+    "initialMemory": 64,
+    "maximumMemory": 64
   }
 }
