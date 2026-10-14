@@ -22,15 +22,19 @@ export const site = {
     {
       area: 'Code',
       lead: true,
-      text: 'My main strength, and where most of my time goes. TypeScript, Kotlin, Java, PHP and Python on the server, Vue and React in the browser, PostgreSQL and MySQL underneath. AssemblyScript and WebAssembly when speed matters.',
+      text: 'My main strength, and where most of my time goes. TypeScript everywhere, with Vue, Nuxt, React and Astro on top and PostgreSQL and MongoDB underneath. AssemblyScript and WebAssembly when speed matters. Some Java, Kotlin, PHP and Python where a project needs it.',
     },
     {
       area: 'Design to front end',
       text: 'From a rough sketch to a working interface. I care about layout, type and how fast the page feels.',
     },
     {
+      area: 'Search',
+      text: 'Search experiences with Solr and Elasticsearch: indexing, relevance, filters and fast results.',
+    },
+    {
       area: 'DevOps and cloud',
-      text: 'Builds, deploys and running services on AWS and other platforms, with caching in Varnish and Fastly to keep things fast under load.',
+      text: 'Builds, deploys and running services on AWS and other platforms, with caching in Varnish to keep things fast under load.',
     },
     {
       area: 'DNS and hosting',

@@ -3,222 +3,62 @@ import { timeline } from '@/content/timeline';
 import { site } from '@/content/site';
 ---
 
-<section id="timeline" class="sheet route-section" aria-labelledby="route-title">
-  <div class="route-intro">
-    <h2 id="route-title">The route, 2001 to now</h2>
-    <div class="route-copy">
+<section
+  id="timeline"
+  class="sheet grid gap-12 border-t-[1.5px] border-ink py-section lg:grid-cols-[minmax(0,1fr)_minmax(0,1.7fr)] lg:gap-20"
+  aria-labelledby="route-title"
+>
+  <div class="lg:sticky lg:top-22 lg:self-start">
+    <h2 id="route-title" class="text-headline text-balance">The route, 2001 to now</h2>
+    <div class="mt-6 grid max-w-[38rem] gap-4 text-lede text-pretty text-ink-soft">
       {site.intro.map((p) => <p>{p}</p>)}
     </div>
   </div>
 
-  <ol class="trail">
+  <!-- The trail itself: DNT red, dashed, running the full length of the route. -->
+  <ol
+    class="relative before:absolute before:top-[0.9rem] before:bottom-2 before:left-[0.6rem] before:w-[3px] before:-translate-x-1/2 before:trail-dash"
+  >
     {
       timeline.map((entry) => (
-        <li class:list={['waypoint', { 'is-current': entry.current }]}>
-          <span class="marker" aria-hidden="true">
-            {entry.current ? (
-              <svg viewBox="0 0 20 20"><path d="M2 3h16v4.5h-5.5V18h-5V7.5H2Z" /></svg>
-            ) : null}
-          </span>
-          <p class="year">{entry.year}</p>
-          <div class="waypoint-body">
-            <h3>
-              {entry.title}
-              <span class="org">{entry.org}</span>
+        <li class="relative grid gap-x-8 gap-y-1 pb-12 pl-11 last:pb-0 tab:grid-cols-[7rem_1fr] tab:pl-13">
+          {entry.current ? (
+            <span class="absolute top-[0.3rem] left-[0.6rem] size-[1.6rem] -translate-x-1/2 bg-paper" aria-hidden="true">
+              <svg viewBox="0 0 20 20" class="block size-full fill-trail">
+                <path d="M2 3h16v4.5h-5.5V18h-5V7.5H2Z" />
+              </svg>
+            </span>
+          ) : (
+            <span
+              class="absolute top-[0.55rem] left-[0.6rem] size-[1.05rem] -translate-x-1/2 rounded-full border-3 border-trail bg-paper"
+              aria-hidden="true"
+            />
+          )}
+          <p class:list={['text-figure tabular-nums tab:pt-[0.1rem]', entry.current ? 'text-ink' : 'text-contour']}>{entry.year}</p>
+          <div>
+            <h3 class="text-title text-balance">
+              {entry.title}{' '}
+              <span class="font-book whitespace-nowrap text-ink-soft before:content-['·_']">{entry.org}</span>
             </h3>
-            <p class="meta">
+            <p class="mt-[0.3rem] text-meta text-ink-soft">
               {entry.period}
               {entry.location && <span> · {entry.location}</span>}
-              {entry.current && <span class="here"> · You are here</span>}
+              {entry.current && <span class="font-semibold text-trail-ink"> · You are here</span>}
             </p>
             {entry.roles && (
-              <ul class="roles">
+              <ul class="mt-3 grid gap-[0.15rem] border-t border-rule pt-[0.6rem] text-meta">
                 {entry.roles.map((role) => (
-                  <li>
-                    <span class="roles-period">{role.period}</span> {role.title}
+                  <li class="grid grid-cols-[7.5rem_1fr]">
+                    <span class="text-ink-soft tabular-nums">{role.period}</span>
+                    <span>{role.title}</span>
                   </li>
                 ))}
               </ul>
             )}
-            <p class="summary">{entry.summary}</p>
+            <p class="mt-[0.85rem] max-w-[62ch] text-body text-pretty text-ink-soft">{entry.summary}</p>
           </div>
         </li>
       ))
     }
   </ol>
 </section>
-
-<style>
-  .route-section {
-    display: grid;
-    gap: 3rem;
-    padding-block: clamp(4rem, 9vw, 7.5rem);
-    border-top: 1.5px solid var(--color-ink);
-  }
-
-  h2 {
-    font-size: clamp(2rem, 4.2vw, 3.25rem);
-    font-weight: 800;
-    line-height: 1.02;
-    letter-spacing: -0.03em;
-    text-wrap: balance;
-  }
-
-  .route-copy {
-    display: grid;
-    gap: 1rem;
-    margin-top: 1.5rem;
-    max-width: 38rem;
-    color: var(--color-ink-soft);
-    font-size: 1.05rem;
-    line-height: 1.6;
-    text-wrap: pretty;
-  }
-
-  .trail {
-    position: relative;
-    margin: 0;
-    padding: 0;
-    list-style: none;
-  }
-
-  /* The trail itself: DNT red, dashed, running the full length of the route. */
-  .trail::before {
-    content: '';
-    position: absolute;
-    left: 0.6rem;
-    top: 0.9rem;
-    bottom: 0.5rem;
-    width: 3px;
-    transform: translateX(-50%);
-    background: repeating-linear-gradient(to bottom, var(--color-trail) 0 9px, transparent 9px 15px);
-  }
-
-  .waypoint {
-    position: relative;
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 0.25rem 2rem;
-    padding: 0 0 3rem 2.75rem;
-  }
-
-  .waypoint:last-child {
-    padding-bottom: 0;
-  }
-
-  .marker {
-    position: absolute;
-    left: 0.6rem;
-    top: 0.55rem;
-    width: 1.05rem;
-    height: 1.05rem;
-    transform: translateX(-50%);
-    border: 3px solid var(--color-trail);
-    border-radius: 50%;
-    background: var(--color-paper);
-  }
-
-  .is-current .marker {
-    width: 1.6rem;
-    height: 1.6rem;
-    top: 0.3rem;
-    border: 0;
-    border-radius: 0;
-    background: var(--color-paper);
-  }
-
-  .is-current .marker svg {
-    display: block;
-    width: 100%;
-    height: 100%;
-    fill: var(--color-trail);
-  }
-
-  .year {
-    font-variant-numeric: tabular-nums;
-    font-size: clamp(2rem, 3.4vw, 2.75rem);
-    font-weight: 800;
-    line-height: 1;
-    letter-spacing: -0.03em;
-    color: var(--color-contour);
-  }
-
-  .is-current .year {
-    color: var(--color-ink);
-  }
-
-  h3 {
-    font-size: clamp(1.25rem, 2vw, 1.5rem);
-    font-weight: 750;
-    line-height: 1.2;
-    letter-spacing: -0.015em;
-  }
-
-  .org {
-    font-weight: 450;
-    color: var(--color-ink-soft);
-  }
-
-  .org::before {
-    content: ' · ';
-  }
-
-  .meta {
-    margin-top: 0.3rem;
-    font-size: 0.9rem;
-    color: var(--color-ink-soft);
-  }
-
-  .here {
-    color: var(--color-trail-ink);
-    font-weight: 650;
-  }
-
-  .roles {
-    display: grid;
-    gap: 0.15rem;
-    margin: 0.75rem 0 0;
-    padding: 0.6rem 0 0;
-    list-style: none;
-    border-top: 1px solid var(--color-rule);
-    font-size: 0.9rem;
-  }
-
-  .roles-period {
-    display: inline-block;
-    min-width: 7.5rem;
-    color: var(--color-ink-soft);
-  }
-
-  .summary {
-    margin-top: 0.85rem;
-    max-width: 62ch;
-    line-height: 1.6;
-    color: var(--color-ink-soft);
-    text-wrap: pretty;
-  }
-
-  @media (min-width: 720px) {
-    .waypoint {
-      grid-template-columns: 7rem 1fr;
-      padding-left: 3.25rem;
-    }
-
-    .year {
-      padding-top: 0.1rem;
-    }
-  }
-
-  @media (min-width: 1024px) {
-    .route-section {
-      grid-template-columns: minmax(0, 1fr) minmax(0, 1.7fr);
-      gap: 5rem;
-    }
-
-    .route-intro {
-      position: sticky;
-      top: 5.5rem;
-      align-self: start;
-    }
-  }
-</style>

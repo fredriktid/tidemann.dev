@@ -11,17 +11,17 @@ export interface TimelineEntry {
 
 export const timeline: TimelineEntry[] = [
   {
-    period: 'Jan 2021 — now',
+    period: 'Jan 2021 – now',
     year: '2021',
     title: 'Tech Lead',
     org: 'Aschehoug',
     location: 'Oslo',
     summary:
-      'I lead the development of Aunivers, one of the largest ed-tech platforms in Norway. Hundreds of thousands of students use it every month, from primary school to adult education.',
+      'Tech lead for Aunivers, one of the largest ed-tech platforms in Norway. I lead the development team, and I still write code.',
     current: true,
   },
   {
-    period: 'Nov 2011 — Jan 2021',
+    period: 'Nov 2011 – Jan 2021',
     year: '2011',
     title: 'Senior Web Developer',
     org: 'Netmaking',
@@ -29,12 +29,12 @@ export const timeline: TimelineEntry[] = [
     summary:
       'Nine years as a consultant, building web platforms for clients like KPMG, XL-BYGG, Norcem and Confex, and a parking system at Oslo Airport connected to Avinor. Order systems, course platforms, certification workflows, CMS and CRM integrations.',
     roles: [
-      { title: 'Senior Web Developer', period: '2014 — 2021' },
-      { title: 'Web Developer', period: '2011 — 2014' },
+      { title: 'Senior Web Developer', period: '2014–2021' },
+      { title: 'Web Developer', period: '2011–2014' },
     ],
   },
   {
-    period: 'May 2007 — Nov 2011',
+    period: 'May 2007 – Nov 2011',
     year: '2007',
     title: 'Administrator & Technical Support',
     org: 'Domeneshop',
@@ -42,12 +42,12 @@ export const timeline: TimelineEntry[] = [
     summary:
       'Domains, DNS, email and hosting at one of the largest domain registrars in Norway. Part time while I studied, then full time. This is where I learned that the boring parts of the internet are the ones that matter most.',
     roles: [
-      { title: 'Administrator / technical support, full time', period: '2009 — 2011' },
-      { title: 'Technical support, part time', period: '2007 — 2009' },
+      { title: 'Administrator / technical support, full time', period: '2009–2011' },
+      { title: 'Technical support, part time', period: '2007–2009' },
     ],
   },
   {
-    period: '2005 — 2009',
+    period: '2005–2009',
     year: '2005',
     title: 'B.Sc. Informatics',
     org: 'University of Oslo',

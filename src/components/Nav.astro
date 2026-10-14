@@ -8,18 +8,27 @@ const links = [
 ];
 ---
 
-<header class="collar">
-  <div class="collar-inner">
-    <a href="#top" class="collar-name" aria-label={`${site.domain}, back to top`}>
-      <strong>{site.domain}</strong>
-      <span class="collar-role">{site.role}, {site.location.split(',')[0]}</span>
+<header class="sticky top-0 z-40 border-b-[1.5px] border-ink bg-paper">
+  <div class="flex h-14 items-center justify-between gap-4 px-margin">
+    <a
+      href="#top"
+      class="flex min-w-0 items-baseline gap-3 text-body no-underline"
+      aria-label={`${site.domain}, back to top`}
+    >
+      <strong class="font-[750] tracking-[-0.01em] whitespace-nowrap">{site.domain}</strong>
+      <span class="truncate text-ink-soft max-sm:hidden">{site.role}, {site.location.split(',')[0]}</span>
     </a>
     <nav aria-label="Primary">
-      <ul>
+      <ul class="flex gap-[clamp(1rem,2.5vw,2rem)]">
         {
           links.map((link) => (
             <li>
-              <a href={link.href}>{link.label}</a>
+              <a
+                href={link.href}
+                class="inline-flex min-h-target items-center text-body font-medium no-underline hover:text-trail-ink"
+              >
+                {link.label}
+              </a>
             </li>
           ))
         }
@@ -27,71 +36,3 @@ const links = [
     </nav>
   </div>
 </header>
-
-<style>
-  .collar {
-    position: sticky;
-    top: 0;
-    z-index: 40;
-    background: var(--color-paper);
-    border-bottom: 1.5px solid var(--color-ink);
-  }
-
-  .collar-inner {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 1rem;
-    height: 3.5rem;
-    padding-inline: var(--sheet-margin);
-  }
-
-  .collar-name {
-    display: flex;
-    align-items: baseline;
-    gap: 0.75rem;
-    min-width: 0;
-    text-decoration: none;
-    font-size: 0.95rem;
-  }
-
-  .collar-name strong {
-    font-weight: 750;
-    letter-spacing: -0.01em;
-    white-space: nowrap;
-  }
-
-  .collar-role {
-    color: var(--color-ink-soft);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-
-  nav ul {
-    display: flex;
-    gap: clamp(1rem, 2.5vw, 2rem);
-    list-style: none;
-    margin: 0;
-    padding: 0;
-  }
-
-  nav a {
-    display: inline-flex;
-    align-items: center;
-    min-height: 2.75rem;
-    font-size: 0.95rem;
-    font-weight: 550;
-    text-decoration: none;
-  }
-
-  nav a:hover {
-    color: var(--color-trail-ink);
-  }
-
-  @media (max-width: 640px) {
-    .collar-role {
-      display: none;
-    }
-  }
-</style>

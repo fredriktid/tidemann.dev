@@ -3,123 +3,52 @@ import { site } from '@/content/site';
 import Arrow from './Arrow.astro';
 
 const edition = new Date().getFullYear();
+const imprint = [
+  { term: 'Edition', value: String(edition) },
+  { term: 'Grid', value: '1 km squares, labelled as UTM zone 32 around Oslo' },
+  { term: 'Terrain', value: 'Made in WebAssembly on your device. Not for navigation.' },
+];
 ---
 
 <section id="contact" class="sheet" aria-labelledby="contact-title">
-  <div class="contact">
-    <h2 id="contact-title">Contact</h2>
-    <div class="contact-body">
-      <p>{site.contact}</p>
-      <p class="contact-offduty">{site.offDuty}</p>
-      <a href={`mailto:${site.email}`} class="contact-email">{site.email}</a>
-      <ul class="contact-links">
-        <li><a href={site.linkedin} target="_blank" rel="noopener noreferrer me">LinkedIn<Arrow /></a></li>
-        <li><a href={site.github} target="_blank" rel="noopener noreferrer me">GitHub<Arrow /></a></li>
+  <div
+    class="mb-[clamp(2rem,5vw,3rem)] grid gap-x-20 gap-y-6 border-[1.5px] border-ink p-panel lg:grid-cols-[minmax(0,1fr)_minmax(0,1.7fr)]"
+  >
+    <h2 id="contact-title" class="text-headline">Contact</h2>
+    <div>
+      <p class="max-w-[58ch] text-lede text-pretty text-ink-soft">{site.contact}</p>
+      <p class="mt-4 max-w-[58ch] text-lede text-pretty text-ink-soft">{site.offDuty}</p>
+      <a
+        href={`mailto:${site.email}`}
+        class="mt-8 inline-block text-email wrap-anywhere decoration-trail decoration-3 underline-offset-[0.18em] hover:text-trail-ink"
+      >
+        {site.email}
+      </a>
+      <ul class="mt-5 flex gap-6 font-semibold">
+        <li>
+          <a href={site.linkedin} target="_blank" rel="noopener noreferrer me" class="inline-flex min-h-target items-center"
+            >LinkedIn<Arrow /></a
+          >
+        </li>
+        <li>
+          <a href={site.github} target="_blank" rel="noopener noreferrer me" class="inline-flex min-h-target items-center"
+            >GitHub<Arrow /></a
+          >
+        </li>
       </ul>
     </div>
 
-    <dl class="imprint">
-      <div><dt>Edition</dt><dd>{edition}</dd></div>
-      <div><dt>Grid</dt><dd>1 km squares, labelled as UTM zone 32 around Oslo</dd></div>
-      <div><dt>Terrain</dt><dd>Made in WebAssembly on your device. Not for navigation.</dd></div>
+    <dl
+      class="mt-4 grid gap-x-8 gap-y-2 border-t border-rule pt-5 text-label text-ink-soft lg:col-span-full lg:grid-cols-[repeat(3,auto)] lg:justify-start"
+    >
+      {
+        imprint.map((item) => (
+          <div class="flex gap-[0.6rem]">
+            <dt class="font-bold text-ink">{item.term}</dt>
+            <dd>{item.value}</dd>
+          </div>
+        ))
+      }
     </dl>
   </div>
 </section>
-
-<style>
-  .contact {
-    display: grid;
-    gap: 1.5rem 5rem;
-    margin-bottom: clamp(2rem, 5vw, 3rem);
-    padding: clamp(1.5rem, 4vw, 3rem);
-    border: 1.5px solid var(--color-ink);
-  }
-
-  h2 {
-    font-size: clamp(2rem, 4.2vw, 3.25rem);
-    font-weight: 800;
-    line-height: 1.02;
-    letter-spacing: -0.03em;
-  }
-
-  .contact-body p {
-    max-width: 58ch;
-    font-size: 1.1rem;
-    line-height: 1.6;
-    color: var(--color-ink-soft);
-    text-wrap: pretty;
-  }
-
-  .contact-offduty {
-    margin-top: 1rem;
-  }
-
-  .contact-email {
-    display: inline-block;
-    margin-top: 2rem;
-    font-size: clamp(1.6rem, 4.6vw, 3rem);
-    font-weight: 800;
-    letter-spacing: -0.03em;
-    line-height: 1.1;
-    overflow-wrap: anywhere;
-    text-decoration: underline;
-    text-decoration-color: var(--color-trail);
-    text-decoration-thickness: 3px;
-    text-underline-offset: 0.18em;
-  }
-
-  .contact-email:hover {
-    color: var(--color-trail-ink);
-  }
-
-  .contact-links {
-    display: flex;
-    gap: 1.5rem;
-    margin: 1.25rem 0 0;
-    padding: 0;
-    list-style: none;
-    font-weight: 600;
-  }
-
-  .contact-links a {
-    display: inline-flex;
-    align-items: center;
-    min-height: 2.75rem;
-  }
-
-  .imprint {
-    display: grid;
-    gap: 0.5rem 2rem;
-    margin: 1rem 0 0;
-    padding-top: 1.25rem;
-    border-top: 1px solid var(--color-rule);
-    font-size: 0.8rem;
-    color: var(--color-ink-soft);
-  }
-
-  .imprint div {
-    display: flex;
-    gap: 0.6rem;
-  }
-
-  .imprint dt {
-    font-weight: 700;
-    color: var(--color-ink);
-  }
-
-  .imprint dd {
-    margin: 0;
-  }
-
-  @media (min-width: 1024px) {
-    .contact {
-      grid-template-columns: minmax(0, 1fr) minmax(0, 1.7fr);
-    }
-
-    .imprint {
-      grid-column: 1 / -1;
-      grid-template-columns: repeat(3, auto);
-      justify-content: start;
-    }
-  }
-</style>

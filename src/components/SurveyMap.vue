@@ -11,6 +11,7 @@ const tileCanvas = ref<HTMLCanvasElement | null>(null);
 const contourCanvas = ref<HTMLCanvasElement | null>(null);
 
 const ready = ref(false);
+const failed = ref(false);
 const aerial = ref(false);
 const lensOn = ref(false);
 const spot = ref<{ x: number; y: number; h: number } | null>(null);
@@ -29,6 +30,12 @@ const FINE = 2;
 const RADIUS = 80;
 const MIN_ALPHA = 28;
 const GAP = 0.14;
+
+const contours = `contours every ${Math.round(STEP * METRES)} m`;
+const layers = [
+  { label: 'Map', aerial: false },
+  { label: 'Aerial', aerial: true },
+];
 
 let sim: Sim | null = null;
 let tctx: CanvasRenderingContext2D | null = null;
@@ -155,7 +162,7 @@ function drawContours(upTo: number) {
 function labelIndexContours(upTo: number) {
   if (!kctx || !segs || !lvl) return;
   const ctx = kctx;
-  ctx.font = '600 10px "Schibsted Grotesk Variable", sans-serif';
+  ctx.font = '650 10px "Schibsted Grotesk Variable", sans-serif';
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
   for (let k = 4; k < LEVELS && k <= upTo; k += 5) {
@@ -289,7 +296,10 @@ onMounted(async () => {
   tctx = terrainCanvas.value?.getContext('2d') ?? null;
   cctx = tileCanvas.value?.getContext('2d') ?? null;
   kctx = contourCanvas.value?.getContext('2d') ?? null;
-  if (!tctx || !cctx || !kctx) return;
+  if (!tctx || !cctx || !kctx) {
+    failed.value = true;
+    return;
+  }
 
   const image = new Image();
   image.decoding = 'async';
@@ -300,17 +310,19 @@ onMounted(async () => {
       loadSim().then((s) => (sim = s)),
       document.fonts?.ready,
     ]);
-    if (!sim) return;
+    if (!sim) throw new Error('No simulation');
     img = sim.exports.imgSize();
     const off = document.createElement('canvas');
     off.width = img;
     off.height = img;
     const octx = off.getContext('2d', { willReadFrequently: true });
-    if (!octx) return;
+    if (!octx) throw new Error('No 2D context');
     octx.drawImage(loaded, 0, 0, img, img);
     sim.imageSrc().set(octx.getImageData(0, 0, img, img).data);
     sim.exports.prepareFace();
   } catch {
+    // Without WebAssembly or the photo, show the small pixel portrait instead.
+    failed.value = true;
     return;
   }
 
@@ -343,203 +355,69 @@ onBeforeUnmount(() => {
 <template>
   <div
     ref="field"
-    class="survey"
-    :class="{ 'is-ready': ready, 'is-lens': lensOn }"
+    class="@container-size absolute inset-0 cursor-crosshair touch-pan-y overflow-hidden select-none"
     @pointermove="onMove"
     @pointerleave="onLeave"
   >
-    <canvas ref="terrainCanvas" class="survey-layer" aria-hidden="true"></canvas>
-    <div class="survey-grid" aria-hidden="true"></div>
-    <div ref="box" class="survey-portrait" @click="setAerial(!aerial)">
-      <img :src="fallback" :alt="alt" width="32" height="32" class="survey-fallback" fetchpriority="high" />
-      <canvas ref="tileCanvas" class="survey-tiles" aria-hidden="true"></canvas>
+    <canvas ref="terrainCanvas" class="pointer-events-none absolute inset-0 block" aria-hidden="true"></canvas>
+    <div class="map-grid pointer-events-none absolute inset-0" aria-hidden="true"></div>
+    <div
+      ref="box"
+      class="absolute top-[calc(50cqh-var(--s)/2)] left-[calc(50cqw-var(--s)/2)] size-(--s) cursor-crosshair [--s:min(80cqh,92cqw)] @min-[1100px]:top-[calc(52cqh-var(--s)/2)] @min-[1100px]:left-[calc(42cqw-var(--s)/2)] @min-[1100px]:[--s:min(88cqh,60cqw)]"
+      @click="setAerial(!aerial)"
+    >
+      <!-- Carries the alt text; only shown if the live map cannot run, so the raw photo never flashes on load. -->
+      <img
+        :src="fallback"
+        :alt="alt"
+        width="32"
+        height="32"
+        class="absolute inset-0 block size-full object-contain [image-rendering:pixelated]"
+        :class="failed ? 'opacity-100' : 'opacity-0'"
+      />
+      <canvas
+        ref="tileCanvas"
+        class="absolute inset-0 block size-full transition-opacity duration-700 ease-out-expo motion-reduce:transition-none"
+        :class="ready ? 'opacity-100' : 'opacity-0'"
+        aria-hidden="true"
+      ></canvas>
     </div>
-    <canvas ref="contourCanvas" class="survey-layer survey-contours" aria-hidden="true"></canvas>
+    <canvas
+      ref="contourCanvas"
+      class="pointer-events-none absolute inset-0 block transition-opacity duration-400 ease-out-expo"
+      aria-hidden="true"
+    ></canvas>
 
-    <div v-if="spot" class="survey-spot" :style="{ transform: `translate(${spot.x}px, ${spot.y}px)` }" aria-hidden="true">
+    <div
+      v-if="spot"
+      class="knockout pointer-events-none absolute top-0 left-0 mt-[0.9rem] ml-[0.9rem] flex items-center gap-[0.3rem] text-map font-semibold text-ink tabular-nums [@media(hover:none)]:hidden"
+      :style="{ transform: `translate(${spot.x}px, ${spot.y}px)` }"
+      aria-hidden="true"
+    >
       <svg width="9" height="8" viewBox="0 0 9 8"><path d="M4.5 0 9 8H0Z" fill="currentColor" /></svg>
       <span>{{ spot.h }}</span>
     </div>
 
-    <div class="survey-controls">
-      <div class="survey-scale" aria-live="polite">
-        <span class="survey-scale-bar" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
-        <span>Tile {{ lensOn ? `${FINE} px under the lens` : `${IDLE_BLOCK} px` }} · contours every {{ Math.round(STEP * METRES) }} m</span>
+    <div class="pointer-events-none absolute top-3 left-3 flex flex-wrap items-stretch gap-3">
+      <!-- The toggle comes first, so the scale text can change length without moving it. -->
+      <div class="pointer-events-auto flex border border-ink bg-paper" role="group" aria-label="Map layer">
+        <button
+          v-for="layer in layers"
+          :key="layer.label"
+          type="button"
+          class="min-h-10 cursor-pointer px-4 text-label font-semibold text-ink transition-colors duration-200 not-first:border-l not-first:border-ink aria-pressed:bg-ink aria-pressed:text-paper not-aria-pressed:hover:bg-forest"
+          :aria-pressed="aerial === layer.aerial"
+          @click="setAerial(layer.aerial)"
+        >
+          {{ layer.label }}
+        </button>
       </div>
-      <div class="survey-layers" role="group" aria-label="Map layer">
-        <button type="button" :aria-pressed="!aerial" @click="setAerial(false)">Map</button>
-        <button type="button" :aria-pressed="aerial" @click="setAerial(true)">Aerial</button>
+      <div class="grid gap-[0.35rem] bg-paper/88 px-[0.65rem] py-2 text-map text-ink tabular-nums" aria-live="polite">
+        <span class="flex h-[0.4rem] w-32 border border-ink" aria-hidden="true">
+          <span v-for="n in 4" :key="n" class="flex-1" :class="{ 'bg-ink': n % 2 }"></span>
+        </span>
+        <span>Tile {{ lensOn ? `${FINE} px under the lens` : `${IDLE_BLOCK} px` }} · {{ contours }}</span>
       </div>
     </div>
   </div>
 </template>
-
-<style scoped>
-.survey {
-  position: absolute;
-  inset: 0;
-  overflow: hidden;
-  container-type: size;
-  cursor: crosshair;
-  touch-action: pan-y;
-  user-select: none;
-}
-
-.survey-layer {
-  position: absolute;
-  inset: 0;
-  display: block;
-  pointer-events: none;
-}
-
-.survey-contours {
-  transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.survey-grid {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background:
-    linear-gradient(to right, var(--color-grid) 1px, transparent 1px) 0 0 / var(--km) var(--km),
-    linear-gradient(to bottom, var(--color-grid) 1px, transparent 1px) 0 0 / var(--km) var(--km);
-}
-
-.survey-portrait {
-  --s: min(80cqh, 92cqw);
-  position: absolute;
-  width: var(--s);
-  height: var(--s);
-  left: calc(50cqw - var(--s) / 2);
-  top: calc(50cqh - var(--s) / 2);
-  cursor: crosshair;
-}
-
-@container (min-width: 1100px) {
-  .survey-portrait {
-    --s: min(88cqh, 60cqw);
-    left: calc(42cqw - var(--s) / 2);
-    top: calc(52cqh - var(--s) / 2);
-  }
-}
-
-.survey-fallback,
-.survey-tiles {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  display: block;
-}
-
-.survey-fallback {
-  image-rendering: pixelated;
-  object-fit: contain;
-}
-
-.survey-tiles {
-  opacity: 0;
-}
-
-.is-ready .survey-tiles {
-  opacity: 1;
-}
-
-.is-ready .survey-fallback {
-  visibility: hidden;
-}
-
-.survey-spot {
-  position: absolute;
-  left: 0;
-  top: 0;
-  display: flex;
-  align-items: center;
-  gap: 0.3rem;
-  margin: 0.9rem 0 0 0.9rem;
-  color: var(--color-ink);
-  font-size: 0.75rem;
-  font-weight: 600;
-  font-variant-numeric: tabular-nums;
-  pointer-events: none;
-  text-shadow:
-    0 0 2px var(--color-paper),
-    0 0 2px var(--color-paper),
-    0 0 3px var(--color-paper);
-}
-
-.survey-controls {
-  position: absolute;
-  left: 0.75rem;
-  top: 0.75rem;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: stretch;
-  gap: 0.75rem;
-  pointer-events: none;
-}
-
-.survey-scale {
-  display: grid;
-  gap: 0.35rem;
-  padding: 0.5rem 0.65rem;
-  background: color-mix(in oklab, var(--color-paper) 88%, transparent);
-  color: var(--color-ink);
-  font-size: 0.72rem;
-  font-variant-numeric: tabular-nums;
-}
-
-.survey-scale-bar {
-  display: flex;
-  width: 8rem;
-  height: 0.4rem;
-  border: 1px solid var(--color-ink);
-}
-
-.survey-scale-bar i {
-  flex: 1;
-}
-
-.survey-scale-bar i:nth-child(odd) {
-  background: var(--color-ink);
-}
-
-.survey-layers {
-  display: flex;
-  border: 1px solid var(--color-ink);
-  background: var(--color-paper);
-  pointer-events: auto;
-}
-
-.survey-layers button {
-  min-height: 2.5rem;
-  padding: 0 1rem;
-  font: inherit;
-  font-size: 0.8rem;
-  font-weight: 600;
-  color: var(--color-ink);
-  background: transparent;
-  border: 0;
-  cursor: pointer;
-  transition: background-color 0.2s ease, color 0.2s ease;
-}
-
-.survey-layers button + button {
-  border-left: 1px solid var(--color-ink);
-}
-
-.survey-layers button[aria-pressed='true'] {
-  background: var(--color-ink);
-  color: var(--color-paper);
-}
-
-.survey-layers button:not([aria-pressed='true']):hover {
-  background: var(--color-forest);
-}
-
-@media (hover: none) {
-  .survey-spot {
-    display: none;
-  }
-}
-</style>

@@ -2,6 +2,7 @@
 import '@fontsource-variable/schibsted-grotesk/wght.css';
 import '@/styles/global.css';
 import { site } from '@/content/site';
+import fontUrl from '@fontsource-variable/schibsted-grotesk/files/schibsted-grotesk-latin-wght-normal.woff2?url';
 
 interface Props {
   title?: string;
@@ -28,6 +29,7 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
     <meta property="og:url" content={canonical} />
     <meta property="og:site_name" content={site.name} />
     <meta name="twitter:card" content="summary" />
+    <link rel="preload" href={fontUrl} as="font" type="font/woff2" crossorigin="anonymous" />
     <link rel="preload" href="/wasm/sim.wasm" as="fetch" type="application/wasm" crossorigin="anonymous" />
   </head>
   <body>

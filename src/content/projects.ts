@@ -13,7 +13,7 @@ export const projects: Project[] = [
   {
     title: 'Aunivers',
     client: 'Aschehoug',
-    kind: 'Ed-tech platform · 2021 — now',
+    kind: 'Ed-tech platform · 2021–now',
     summary:
       'I lead the team that builds and runs Aunivers. Hundreds of thousands of students use it every month, from first grade to adult education, so it has to work on a Monday morning.',
     quote: 'Med læreren. For eleven.',
@@ -57,7 +57,7 @@ export const projects: Project[] = [
     client: 'Norcem',
     kind: 'Order system',
     summary:
-      'Built the order system for Norcem, who deliver about 90 % of the cement used in Norway. If you see a cement truck, there is a good chance the order went through this system.',
+      'Built the order system for Norcem, who deliver about 90% of the cement used in Norway. If you see a cement truck, there is a good chance the order went through this system.',
   },
   {
     title: 'Airport valet parking',

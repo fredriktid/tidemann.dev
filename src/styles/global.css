@@ -7,19 +7,79 @@
   --color-ink: #1f1b16;
   --color-ink-soft: #565046;
   --color-contour: #8a5a2b;
+  --color-contour-index: #7a4c20;
   --color-water: #2f6fb0;
   --color-water-fill: #c9dff0;
   --color-trail: #d7261e;
   --color-trail-ink: #b81d16;
   --color-grid: rgb(47 111 176 / 0.22);
   --color-rule: #c5cbb2;
+
   --font-sans: 'Schibsted Grotesk Variable', ui-sans-serif, system-ui, sans-serif;
+
+  /* Breakpoints in use on the sheet: 640 (sm), 720 (tab), 1024 (lg), 1180 (wide). */
+  --breakpoint-tab: 45rem;
+  --breakpoint-wide: 73.75rem;
+
+  /* Type roles, smallest to largest. One family; hierarchy from size, weight and tracking. */
+  --text-map: 0.72rem;
+  --text-map--line-height: 1.25;
+  --text-label: 0.8rem;
+  --text-label--line-height: 1.4;
+  --text-meta: 0.875rem;
+  --text-meta--line-height: 1.45;
+  --text-body: 1rem;
+  --text-body--line-height: 1.6;
+  --text-lede: 1.125rem;
+  --text-lede--line-height: 1.6;
+  --text-name: clamp(2rem, 5vw, 2.6rem);
+  --text-name--line-height: 1;
+  --text-name--letter-spacing: -0.025em;
+  --text-name--font-weight: 800;
+  --text-email: clamp(1.6rem, 4.6vw, 3rem);
+  --text-email--line-height: 1.1;
+  --text-email--letter-spacing: -0.03em;
+  --text-email--font-weight: 800;
+  --text-display: clamp(2.5rem, 7vw, 5rem);
+  --text-display--line-height: 0.95;
+  --text-display--letter-spacing: -0.035em;
+  --text-display--font-weight: 800;
+  --text-headline: clamp(2rem, 4.2vw, 3.25rem);
+  --text-headline--line-height: 1.02;
+  --text-headline--letter-spacing: -0.03em;
+  --text-headline--font-weight: 800;
+  --text-figure: clamp(2rem, 3.4vw, 2.75rem);
+  --text-figure--line-height: 1;
+  --text-figure--letter-spacing: -0.03em;
+  --text-figure--font-weight: 800;
+  --text-title: clamp(1.25rem, 2vw, 1.5rem);
+  --text-title--line-height: 1.2;
+  --text-title--letter-spacing: -0.015em;
+  --text-title--font-weight: 750;
+  --text-title-sm: 1.15rem;
+  --text-title-sm--line-height: 1.3;
+  --text-title-sm--letter-spacing: -0.01em;
+  --text-title-sm--font-weight: 700;
+
+  /* Variable weights in steps of 50. */
+  --font-weight-book: 450;
+  --font-weight-medium: 550;
+  --font-weight-semibold: 650;
+  --font-weight-bold: 700;
+  --font-weight-extrabold: 800;
+
+  --spacing-target: 2.75rem;
+  --spacing-panel: clamp(1.5rem, 4vw, 3rem);
+  --spacing-section: clamp(4rem, 9vw, 7.5rem);
+  --spacing-margin: clamp(1.25rem, 2.6vw, 2.25rem);
+  --spacing-km: var(--km);
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 :root {
   color-scheme: light;
   --km: 10rem;
-  --sheet-margin: clamp(1.25rem, 2.6vw, 2.25rem);
   accent-color: var(--color-trail);
   scrollbar-color: var(--color-contour) var(--color-paper-deep);
 }
@@ -36,78 +96,97 @@
   }
 }
 
-html {
-  background: var(--color-paper);
-  color: var(--color-ink);
-  font-family: var(--font-sans);
-  font-synthesis: none;
-  -webkit-font-smoothing: antialiased;
-  text-rendering: optimizeLegibility;
+@layer base {
+  html {
+    background: var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-synthesis: none;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    min-height: 100dvh;
+    overflow-x: clip;
+    background: var(--color-paper);
+  }
+
+  /* No italics anywhere on this sheet, including browser defaults. */
+  em,
+  i,
+  cite,
+  dfn,
+  var,
+  address {
+    font-style: normal;
+  }
+
+  ::selection {
+    background: var(--color-trail);
+    color: var(--color-paper);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-trail);
+    outline-offset: 3px;
+  }
+
+  a {
+    color: inherit;
+    text-decoration-line: underline;
+    text-decoration-color: color-mix(in oklab, currentColor 35%, transparent);
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.22em;
+    transition:
+      text-decoration-color 0.2s ease,
+      color 0.2s ease;
+  }
+
+  a:hover {
+    text-decoration-color: currentColor;
+  }
+
+  section[id] {
+    scroll-margin-top: 4rem;
+  }
 }
 
-body {
-  min-height: 100dvh;
-  overflow-x: clip;
-  background: var(--color-paper);
-}
-
-/* No italics anywhere on this sheet, including browser defaults. */
-em,
-i,
-cite,
-dfn,
-var,
-address {
-  font-style: normal;
-}
-
-::selection {
-  background: var(--color-trail);
-  color: var(--color-paper);
-}
-
-:focus-visible {
-  outline: 2px solid var(--color-trail);
-  outline-offset: 3px;
-}
-
-a {
-  color: inherit;
-  text-decoration-color: color-mix(in oklab, currentColor 35%, transparent);
-  text-decoration-thickness: 1px;
-  text-underline-offset: 0.22em;
-  transition: text-decoration-color 0.2s ease, color 0.2s ease;
-}
-
-a:hover {
-  text-decoration-color: currentColor;
-}
-
-section[id] {
-  scroll-margin-top: 4rem;
-}
-
-.sheet {
+/* One sheet width for every content section. */
+@utility sheet {
   width: 100%;
   max-width: 82rem;
   margin-inline: auto;
-  padding-inline: var(--sheet-margin);
+  padding-inline: var(--spacing-margin);
 }
 
-.trail-link {
+/* Email links set in trail red. */
+@utility trail-link {
   color: var(--color-trail-ink);
   text-decoration-color: var(--color-trail);
 }
 
-.arrow {
-  display: inline-block;
-  width: 0.7em;
-  height: 0.7em;
-  margin-left: 0.15em;
-  vertical-align: 0.02em;
-  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+/* The 1 km grid inside the map field. */
+@utility map-grid {
+  background:
+    linear-gradient(to right, var(--color-grid) 1px, transparent 1px) 0 0 / var(--km) var(--km),
+    linear-gradient(to bottom, var(--color-grid) 1px, transparent 1px) 0 0 / var(--km) var(--km);
 }
 
+/* DNT trail: red dashes, 9 on, 6 off. */
+@utility trail-dash {
+  background: repeating-linear-gradient(to bottom, var(--color-trail) 0 9px, transparent 9px 15px);
+}
+
+/* Paper knockout behind lettering that sits on the map. */
+@utility knockout {
+  text-shadow:
+    0 0 2px var(--color-paper),
+    0 0 2px var(--color-paper),
+    0 0 3px var(--color-paper);
+}
+
+/* The outbound arrow nudges toward where the link goes. */
 a:hover .arrow {
   transform: translate(0.12em, -0.12em);
 }
