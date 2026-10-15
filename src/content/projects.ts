@@ -26,8 +26,8 @@ export const own: OwnProject[] = [
     href: 'https://hvisk.dev',
     source: 'https://github.com/fredriktid/hvisk',
     summary:
-      'Share a secret with a link that works once. It is encrypted in the browser and the key never leaves the link, so the server only stores random bytes.',
-    stack: ['Nuxt', 'Cloudflare Workers', 'D1', 'Docker', 'Open source'],
+      'Share a secret with a link that works once, encrypted in your browser so the server only ever stores random bytes.',
+    stack: ['Nuxt', 'Cloudflare Workers', 'D1', 'Docker', 'Web Crypto'],
     mark: 'hvisk',
   },
   {
@@ -36,8 +36,8 @@ export const own: OwnProject[] = [
     href: 'https://fikser.dev',
     source: 'https://github.com/fredriktid/fikser',
     summary:
-      'Convert, trim and shrink video, or turn it into a GIF, without uploading anything. ffmpeg compiled to WebAssembly does the work in your browser.',
-    stack: ['Vue', 'ffmpeg.wasm', 'Cloudflare', 'Open source'],
+      'Convert, trim and shrink video, or turn it into a GIF, with ffmpeg compiled to WebAssembly running in your browser so nothing is uploaded.',
+    stack: ['Vue', 'ffmpeg.wasm', 'Cloudflare', 'Multithreaded WebAssembly'],
     mark: 'fikser',
   },
 ];

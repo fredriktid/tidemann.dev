@@ -40,11 +40,11 @@ const columns = 'lg:grid-cols-[10rem_minmax(0,1.3fr)_minmax(0,1fr)_1.5rem] lg:ga
           </div>
           <div class="p-[clamp(1.25rem,3vw,1.75rem)]">
             <h3 class="text-title">
-              <a href={project.href} target="_blank" rel="noopener noreferrer" class="no-underline hover:text-trail-ink">
-                {project.title}
+              {project.title}
+              <a href={project.href} target="_blank" rel="noopener noreferrer" class="trail-link ml-2 font-semibold whitespace-nowrap">
+                {project.domain}
                 <Arrow />
               </a>
-              <span class="font-book whitespace-nowrap text-ink-soft before:content-['·_']">{project.domain}</span>
             </h3>
             <p class="mt-3 max-w-[48ch] text-body text-pretty text-ink-soft">{project.summary}</p>
             <p class="mt-4 flex flex-wrap items-center gap-x-5 gap-y-1 text-meta">
@@ -79,11 +79,11 @@ const columns = 'lg:grid-cols-[10rem_minmax(0,1.3fr)_minmax(0,1fr)_1.5rem] lg:ga
             <details class="group" open={project.current || undefined}>
               <summary
                 class:list={[
-                  'grid cursor-pointer list-none grid-cols-[minmax(0,1fr)_1.5rem] items-center gap-x-4 gap-y-1 px-[clamp(1.25rem,3vw,1.5rem)] py-[0.8rem] hover:bg-paper-deep tab:grid-cols-[9rem_minmax(0,1fr)_1.5rem] tab:gap-x-8 [&::-webkit-details-marker]:hidden',
+                  'grid cursor-pointer list-none grid-cols-[minmax(0,1fr)_1.5rem] items-center gap-x-4 gap-y-1 px-[clamp(1.25rem,3vw,1.5rem)] py-[0.8rem] hover:bg-forest tab:grid-cols-[9rem_minmax(0,1fr)_1.5rem] tab:gap-x-8 [&::-webkit-details-marker]:hidden',
                   columns,
                 ]}
               >
-                <div class="col-start-1 flex h-8 items-center">
+                <span class="col-start-1 flex h-8 items-center">
                   {project.logo ? (
                     <img
                       src={project.logo.src}
@@ -97,17 +97,12 @@ const columns = 'lg:grid-cols-[10rem_minmax(0,1.3fr)_minmax(0,1fr)_1.5rem] lg:ga
                   ) : (
                     <span class="text-body font-extrabold uppercase opacity-80">{project.client}</span>
                   )}
-                </div>
-                <h3 class="col-start-1 flex items-center gap-2 text-body font-bold text-balance tab:col-start-2">
-                  {project.current && (
-                    <svg viewBox="0 0 20 20" class="size-4 flex-none fill-trail" aria-hidden="true">
-                      <path d="M2 3h16v4.5h-5.5V18h-5V7.5H2Z" />
-                    </svg>
-                  )}
+                </span>
+                <h3 class="col-start-1 text-body font-bold text-balance tab:col-start-2">
                   {project.title}
                   {project.current && <span class="sr-only">(current)</span>}
                 </h3>
-                <p class="col-start-1 text-meta text-contour tab:col-start-2 lg:col-start-3">{project.kind}</p>
+                <span class="col-start-1 block text-meta text-contour tab:col-start-2 lg:col-start-3">{project.kind}</span>
                 <svg
                   viewBox="0 0 10 10"
                   class="col-start-2 row-start-1 size-3 justify-self-end fill-none stroke-ink stroke-[1.5] transition-transform duration-200 ease-out-expo group-open:rotate-180 tab:col-start-3 lg:col-start-4"
