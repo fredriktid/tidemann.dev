@@ -51,6 +51,7 @@ export const projects: Project[] = [
     summary:
       'I lead the team that builds and runs Aunivers. Hundreds of thousands of students use it every month, from first grade to adult education, so it has to work on a Monday morning.',
     quote: 'Med læreren. For eleven.',
+    logo: { src: '/logos/aschehoug.svg', width: 357, height: 80 },
     titleLogo: { src: '/logos/aunivers.svg', width: 109, height: 25 },
     href: 'https://aunivers.no',
     current: true,

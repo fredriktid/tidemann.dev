@@ -1,1 +1,16 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect x="2" y="2" width="60" height="60" fill="#eef0e2" stroke="#1f1b16" stroke-width="4"/><g fill="none" stroke-linejoin="round"><path d="M13 40C11 26 21 13 34 13c13 0 21 11 19 23-2 12-12 18-22 17-10-1-17-6-18-13Z" stroke="#7a4c20" stroke-width="5"/><path d="M22 38c-1-9 5-16 12-16 8 0 12 7 10 15-2 7-8 9-14 8-5-1-8-3-8-7Z" stroke="#8a5a2b" stroke-width="3.5"/></g><path d="M34.5 27 39 35h-9Z" fill="#1f1b16"/></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <style>
+    .ink { fill: #1f1b16; }
+    .line { stroke: #1f1b16; }
+    @media (prefers-color-scheme: dark) {
+      .ink { fill: #eef0e2; }
+      .line { stroke: #eef0e2; }
+    }
+  </style>
+  <rect x="2" y="2" width="60" height="60" fill="none" class="line" stroke-width="4"/>
+  <g fill="none" stroke-linejoin="round">
+    <path d="M13 40C11 26 21 13 34 13c13 0 21 11 19 23-2 12-12 18-22 17-10-1-17-6-18-13Z" stroke="#8a5a2b" stroke-width="5"/>
+    <path d="M22 38c-1-9 5-16 12-16 8 0 12 7 10 15-2 7-8 9-14 8-5-1-8-3-8-7Z" stroke="#a0693a" stroke-width="3.5"/>
+  </g>
+  <path d="M34.5 27 39 35h-9Z" class="ink"/>
+</svg>
