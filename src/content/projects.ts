@@ -5,9 +5,42 @@ export interface Project {
   summary: string;
   logo?: { src: string; width: number; height: number };
   href?: string;
-  featured?: boolean;
+  current?: boolean;
   quote?: string;
 }
+
+export interface OwnProject {
+  title: string;
+  domain: string;
+  href: string;
+  source: string;
+  summary: string;
+  stack: string[];
+  mark: 'hvisk' | 'fikser';
+}
+
+export const own: OwnProject[] = [
+  {
+    title: 'Hvisk',
+    domain: 'hvisk.dev',
+    href: 'https://hvisk.dev',
+    source: 'https://github.com/fredriktid/hvisk',
+    summary:
+      'Share a secret with a link that works once. It is encrypted in the browser and the key never leaves the link, so the server only stores random bytes.',
+    stack: ['Nuxt', 'Cloudflare Workers', 'D1', 'Docker', 'Open source'],
+    mark: 'hvisk',
+  },
+  {
+    title: 'Fikser',
+    domain: 'fikser.dev',
+    href: 'https://fikser.dev',
+    source: 'https://github.com/fredriktid/fikser',
+    summary:
+      'Convert, trim and shrink video, or turn it into a GIF, without uploading anything. ffmpeg compiled to WebAssembly does the work in your browser.',
+    stack: ['Vue', 'ffmpeg.wasm', 'Cloudflare', 'Open source'],
+    mark: 'fikser',
+  },
+];
 
 export const projects: Project[] = [
   {
@@ -19,7 +52,7 @@ export const projects: Project[] = [
     quote: 'Med læreren. For eleven.',
     logo: { src: '/logos/aunivers.svg', width: 109, height: 25 },
     href: 'https://aunivers.no',
-    featured: true,
+    current: true,
   },
   {
     title: 'Web architecture for a full rewrite',

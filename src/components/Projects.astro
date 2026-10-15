@@ -1,63 +1,65 @@
 ---
-import { projects } from '@/content/projects';
+import { own, projects } from '@/content/projects';
 import { site } from '@/content/site';
 import Arrow from './Arrow.astro';
 
-const featured = projects.filter((p) => p.featured);
-const rest = projects.filter((p) => !p.featured);
-
-// Client / Project / Notes columns, shared by the header and every row.
-const columns = 'lg:grid-cols-[10rem_minmax(0,1fr)_minmax(0,1.5fr)] lg:gap-x-10';
+// Client / Project / Kind / disclosure mark, shared by the header and every row.
+const columns = 'lg:grid-cols-[10rem_minmax(0,1.3fr)_minmax(0,1fr)_1.5rem] lg:gap-x-10';
 ---
 
 <section id="work" class="sheet border-t-[1.5px] border-ink py-section" aria-labelledby="work-title">
   <div class="mb-10 flex flex-wrap items-end justify-between gap-x-12 gap-y-4">
     <h2 id="work-title" class="text-headline">Index of work</h2>
     <p class="max-w-[30rem] text-body text-ink-soft">
-      A selection. I did most of the consulting work together with the team at Netmaking.
+      Two things I built on my own time, then the client work. Most of the consulting I did together with the team at
+      Netmaking.
     </p>
   </div>
 
-  {
-    featured.map((project) => (
-      <article class="grid border-[1.5px] border-ink lg:grid-cols-[1.4fr_1fr]">
-        <div class="p-panel">
-          <h3 class="text-display">
-            {project.href ? (
+  <div class="grid gap-6 lg:grid-cols-2 lg:gap-8">
+    {
+      own.map((project) => (
+        <article class="grid grid-cols-[4.5rem_minmax(0,1fr)] border-[1.5px] border-ink tab:grid-cols-[7rem_minmax(0,1fr)]">
+          <div class="grid place-items-center border-r-[1.5px] border-ink bg-forest p-3 tab:p-4" aria-hidden="true">
+            {project.mark === 'hvisk' ? (
+              <svg viewBox="0 0 32 32" class="size-10 tab:size-14">
+                <path
+                  d="M20 12l9-3.5M20 12l9 3.5M12 12l-9-3.5M12 12l-9 3.5"
+                  class="fill-none stroke-ink stroke-[1.6]"
+                  stroke-linecap="round"
+                />
+                <rect x="12" y="4" width="8" height="15" class="fill-ink" />
+                <path d="M8 19h16l-2.5 9h-11z" class="fill-ink" />
+              </svg>
+            ) : (
+              <svg viewBox="0 0 32 32" class="size-10 tab:size-14">
+                <rect x="1" y="1" width="30" height="30" class="fill-none stroke-ink stroke-[1.6]" />
+                <path d="M9 7h14v3.5h-9.5v4h8v3.5h-8V25H9z" class="fill-ink" />
+              </svg>
+            )}
+          </div>
+          <div class="p-[clamp(1.25rem,3vw,1.75rem)]">
+            <h3 class="text-title">
               <a href={project.href} target="_blank" rel="noopener noreferrer" class="no-underline hover:text-trail-ink">
                 {project.title}
                 <Arrow />
               </a>
-            ) : (
-              project.title
-            )}
-          </h3>
-          <p class="mt-3 text-meta text-ink-soft">{project.kind}</p>
-          {project.quote && (
-            <p class="mt-4 text-title font-semibold text-contour" lang="nb">
-              {project.quote}
+              <span class="font-book whitespace-nowrap text-ink-soft before:content-['·_']">{project.domain}</span>
+            </h3>
+            <p class="mt-3 max-w-[48ch] text-body text-pretty text-ink-soft">{project.summary}</p>
+            <p class="mt-4 flex flex-wrap items-center gap-x-5 gap-y-1 text-meta">
+              <span class="text-contour">{project.stack.join(' · ')}</span>
+              <a href={project.source} target="_blank" rel="noopener noreferrer" class="inline-flex min-h-target items-center font-semibold">
+                Source<Arrow />
+              </a>
             </p>
-          )}
-          <p class="mt-5 max-w-[52ch] text-lede text-pretty text-ink-soft">{project.summary}</p>
-        </div>
-        <div class="grid min-h-48 place-items-center border-t-[1.5px] border-ink bg-forest p-10 lg:border-t-0 lg:border-l-[1.5px]">
-          {project.logo && (
-            <img
-              src={project.logo.src}
-              width={project.logo.width}
-              height={project.logo.height}
-              alt={project.client}
-              loading="lazy"
-              decoding="async"
-              class="h-auto w-[min(18rem,70%)] opacity-88 brightness-0"
-            />
-          )}
-        </div>
-      </article>
-    ))
-  }
+          </div>
+        </article>
+      ))
+    }
+  </div>
 
-  <div class="mt-12 border-[1.5px] border-ink">
+  <div class="mt-10 border-[1.5px] border-ink">
     <div
       class:list={[
         'hidden border-b-[1.5px] border-ink bg-forest px-6 py-[0.6rem] text-label font-bold lg:grid',
@@ -67,39 +69,81 @@ const columns = 'lg:grid-cols-[10rem_minmax(0,1fr)_minmax(0,1.5fr)] lg:gap-x-10'
     >
       <span>Client</span>
       <span>Project</span>
-      <span>Notes</span>
+      <span>Kind</span>
+      <span></span>
     </div>
     <ul class="grid">
       {
-        rest.map((project) => (
-          <li
-            class:list={[
-              'grid gap-3 px-[clamp(1.25rem,3vw,1.5rem)] py-[1.4rem] not-first:border-t not-first:border-rule tab:grid-cols-[9rem_1fr] tab:gap-x-8',
-              columns,
-            ]}
-          >
-            <div class="flex h-9 items-center">
-              {project.logo ? (
-                <img
-                  src={project.logo.src}
-                  width={project.logo.width}
-                  height={project.logo.height}
-                  alt={project.client}
-                  loading="lazy"
-                  decoding="async"
-                  class="block h-auto max-h-8 w-auto max-w-[8.5rem] opacity-80 brightness-0"
-                />
-              ) : (
-                <span class="text-title-sm font-extrabold uppercase opacity-80">{project.client}</span>
-              )}
-            </div>
-            <div>
-              <h3 class="text-title-sm text-balance">{project.title}</h3>
-              <p class="mt-[0.15rem] text-meta text-contour">{project.kind}</p>
-            </div>
-            <p class="max-w-[60ch] text-body text-pretty text-ink-soft tab:col-start-2 lg:col-start-3">
-              {project.summary}
-            </p>
+        projects.map((project) => (
+          <li class="not-first:border-t not-first:border-rule">
+            <details class="group" open={project.current || undefined}>
+              <summary
+                class:list={[
+                  'grid cursor-pointer list-none grid-cols-[minmax(0,1fr)_1.5rem] items-center gap-x-4 gap-y-1 px-[clamp(1.25rem,3vw,1.5rem)] py-[0.8rem] hover:bg-paper-deep tab:grid-cols-[9rem_minmax(0,1fr)_1.5rem] tab:gap-x-8 [&::-webkit-details-marker]:hidden',
+                  columns,
+                ]}
+              >
+                <div class="col-start-1 flex h-8 items-center">
+                  {project.logo ? (
+                    <img
+                      src={project.logo.src}
+                      width={project.logo.width}
+                      height={project.logo.height}
+                      alt={project.client}
+                      loading="lazy"
+                      decoding="async"
+                      class="block h-auto max-h-7 w-auto max-w-[8rem] opacity-80 brightness-0"
+                    />
+                  ) : (
+                    <span class="text-body font-extrabold uppercase opacity-80">{project.client}</span>
+                  )}
+                </div>
+                <h3 class="col-start-1 flex items-center gap-2 text-body font-bold text-balance tab:col-start-2">
+                  {project.current && (
+                    <svg viewBox="0 0 20 20" class="size-4 flex-none fill-trail" aria-hidden="true">
+                      <path d="M2 3h16v4.5h-5.5V18h-5V7.5H2Z" />
+                    </svg>
+                  )}
+                  {project.title}
+                  {project.current && <span class="sr-only">(current)</span>}
+                </h3>
+                <p class="col-start-1 text-meta text-contour tab:col-start-2 lg:col-start-3">{project.kind}</p>
+                <svg
+                  viewBox="0 0 10 10"
+                  class="col-start-2 row-start-1 size-3 justify-self-end fill-none stroke-ink stroke-[1.5] transition-transform duration-200 ease-out-expo group-open:rotate-180 tab:col-start-3 lg:col-start-4"
+                  aria-hidden="true"
+                >
+                  <path d="M1.5 3.5 5 7l3.5-3.5" />
+                </svg>
+              </summary>
+              <div
+                class:list={[
+                  'grid gap-x-8 px-[clamp(1.25rem,3vw,1.5rem)] pb-[1.1rem] tab:grid-cols-[9rem_minmax(0,1fr)]',
+                  columns,
+                ]}
+              >
+                <div class="max-w-[62ch] tab:col-start-2 lg:col-span-2 lg:col-start-2">
+                  {project.quote && (
+                    <p class="mb-2 font-semibold text-contour" lang="nb">
+                      {project.quote}
+                    </p>
+                  )}
+                  <p class="text-body text-pretty text-ink-soft">
+                    {project.href ? (
+                      <>
+                        {project.summary}{' '}
+                        <a href={project.href} target="_blank" rel="noopener noreferrer" class="font-semibold whitespace-nowrap">
+                          {project.client.toLowerCase() === project.title.toLowerCase() ? project.href.replace('https://', '') : 'Visit'}
+                          <Arrow />
+                        </a>
+                      </>
+                    ) : (
+                      project.summary
+                    )}
+                  </p>
+                </div>
+              </div>
+            </details>
           </li>
         ))
       }

@@ -34,7 +34,7 @@ export const site = {
     },
     {
       area: 'DevOps and cloud',
-      text: 'Builds, deploys and running services on AWS and other platforms, with caching in Varnish to keep things fast under load.',
+      text: 'Builds, deploys and running services on AWS, Cloudflare and other platforms. Docker for local setups that match production, and caching in Varnish to keep things fast under load.',
     },
     {
       area: 'DNS and hosting',
