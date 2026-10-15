@@ -97,8 +97,20 @@ const columns = 'lg:grid-cols-[10rem_minmax(0,1.3fr)_minmax(0,1fr)_1.5rem] lg:ga
                     <span class="text-body font-extrabold uppercase opacity-80">{project.client}</span>
                   )}
                 </span>
-                <h3 class="col-start-1 text-body font-bold text-balance tab:col-start-2">
-                  {project.title}
+                <h3 class="col-start-1 flex h-8 items-center text-body font-bold text-balance tab:col-start-2">
+                  {project.titleLogo ? (
+                    <img
+                      src={project.titleLogo.src}
+                      width={project.titleLogo.width}
+                      height={project.titleLogo.height}
+                      alt={project.title}
+                      loading="lazy"
+                      decoding="async"
+                      class="block h-auto max-h-7 w-auto max-w-[8rem]"
+                    />
+                  ) : (
+                    project.title
+                  )}
                   {project.current && <span class="sr-only">(current)</span>}
                 </h3>
                 <span class="col-start-1 block text-meta text-contour tab:col-start-2 lg:col-start-3">{project.kind}</span>

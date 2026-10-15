@@ -4,6 +4,7 @@ export interface Project {
   kind: string;
   summary: string;
   logo?: { src: string; width: number; height: number };
+  titleLogo?: { src: string; width: number; height: number };
   href?: string;
   current?: boolean;
   quote?: string;
@@ -37,7 +38,7 @@ export const own: OwnProject[] = [
     source: 'https://github.com/fredriktid/fikser',
     summary:
       'Convert, trim and shrink video, or turn it into a GIF, with ffmpeg compiled to WebAssembly running in your browser so nothing is uploaded.',
-    stack: ['Vue', 'ffmpeg.wasm', 'Cloudflare', 'Multithreaded WebAssembly'],
+    stack: ['Vue', 'ffmpeg.wasm', 'Cloudflare', 'WebAssembly threads'],
     mark: 'fikser',
   },
 ];
@@ -50,6 +51,7 @@ export const projects: Project[] = [
     summary:
       'I lead the team that builds and runs Aunivers. Hundreds of thousands of students use it every month, from first grade to adult education, so it has to work on a Monday morning.',
     quote: 'Med læreren. For eleven.',
+    titleLogo: { src: '/logos/aunivers.svg', width: 109, height: 25 },
     href: 'https://aunivers.no',
     current: true,
   },
