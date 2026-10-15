@@ -62,6 +62,7 @@ export const projects: Project[] = [
     kind: 'Advisory role',
     summary:
       'Advisor on the overall web architecture, and on how it connects to the business systems, in a full rewrite of the Juridika application.',
+    logo: { src: '/logos/juridika.svg', width: 112, height: 20 },
   },
   {
     title: 'Book registration, metadata and search',
