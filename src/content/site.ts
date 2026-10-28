@@ -7,6 +7,7 @@ export const site = {
   email: 'fredrik@tidemann.dev',
   linkedin: 'https://www.linkedin.com/in/fredrik-tidemann-26637553',
   github: 'https://github.com/fredriktid',
+  gitlab: 'https://gitlab.com/fredriktid',
   description:
     'Tech lead and web developer in Oslo. More than twenty years of building fast, reliable web products. Now leading ed-tech development at Aschehoug.',
   headline: 'Tech lead who still writes code.',
